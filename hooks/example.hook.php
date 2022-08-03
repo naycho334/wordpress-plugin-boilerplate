@@ -4,7 +4,7 @@ namespace Plugin\Hooks;
 
 use Plugin\Abstracts\Hooks;
 
-class Core extends Hooks
+class Example extends Hooks
 {
   public function admin_hooks()
   {
