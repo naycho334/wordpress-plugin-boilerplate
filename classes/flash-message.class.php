@@ -2,6 +2,10 @@
 
 namespace Plugin\Classes;
 
+if(!defined('ABSPATH')) {
+  exit;
+}
+
 class FlashMessage
 {
   public static $instance = null;

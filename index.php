@@ -7,6 +7,10 @@
  * Author: Samir El Khaouti
  */
 
+if(!defined('ABSPATH')) {
+  exit;
+}
+
 use Plugin\Classes\FlashMessage;
 
 include __DIR__ . "/vendor/autoload.php";
