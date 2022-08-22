@@ -15,11 +15,20 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "babelify": "^10.0.0",
+    "browserify": "^17.0.0",
     "fs-extra": "^10.1.0",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^8.0.0",
+    "gulp-babel": "^8.0.0",
     "gulp-sass": "^5.1.0",
     "sass": "^1.54.5",
+    "vinyl-buffer": "^1.0.1",
+    "vinyl-source-stream": "^2.0.0",
+    "gulp-minify": "^3.1.0",
     "zip-a-folder": "^1.1.5"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
   }
 }

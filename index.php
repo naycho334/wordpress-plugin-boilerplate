@@ -13,6 +13,7 @@ if(!defined('ABSPATH')) {
 
 define("PLUGIN_TEXT_DOMAIN", "plugin-name");
 define("PLUGIN_DIR", __DIR__);
+define("PLUGIN_ASSETS_URL", PLUGIN_DIR . '/assets/');
 
 use Plugin\Classes\FlashMessage;
 

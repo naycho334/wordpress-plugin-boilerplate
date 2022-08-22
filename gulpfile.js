@@ -1,14 +1,25 @@
 'use strict';
 
+const {
+  readFileSync,
+  readdirSync,
+  mkdirSync,
+  rmdirSync,
+  rmSync,
+} = require("fs");
 const sass = require('gulp-sass')(require('sass'));
 const autoprefixer = require('gulp-autoprefixer');
-const { rmSync, readdirSync, mkdirSync, cp, unlink, unlinkSync, rmdirSync, copyFileSync, lstatSync, readFileSync } = require('fs');
-const { series } = require('gulp');
-const { join, dirname } = require('path');
-const gulp = require('gulp');
-const os = require('os');
+const source = require('vinyl-source-stream');
+const browserify = require('browserify');
 const { copySync } = require('fs-extra');
 const { zip } = require('zip-a-folder');
+const buffer = require('vinyl-buffer');
+const minify = require("gulp-minify");
+const Babelify = require('babelify');
+const { series } = require('gulp');
+const { join } = require("path");
+const gulp = require('gulp');
+const os = require('os');
 
 const compileSCSS = (event) => {
   gulp.src('./scss/*.scss')
@@ -42,7 +53,10 @@ const removeCssFiles = (event) => {
   event !== undefined && event();
 }
 
-exports.watchscss = function () {
+/**
+ * Watch scss
+ */
+gulp.task('watchscss', function(){
   removeCssFiles();
   compileSCSS();
   gulp.watch(['./scss/*.scss'], series(
@@ -50,12 +64,15 @@ exports.watchscss = function () {
     compileSCSS,
     autoPrefixCss
   ));
-};
+});
 
-exports.pack = async function () {
+/**
+ * Compress plugin
+ */
+gulp.task("pack", async function () {
   const pkg = readFileSync(join(__dirname, "package.json"), "utf8");
   const json = JSON.parse(pkg);
-  const dirName = join(__dirname, json.name);
+  const dirName = join(os.tmpdir(), json.name);
 
   try {
     rmdirSync(dirName, { recursive: true });
@@ -86,4 +103,25 @@ exports.pack = async function () {
     rmdirSync(dirName, { recursive: true });
     console.log("Failed to pack the plugin");
   }
-}
+});
+
+/**
+ * Complile and minify js files
+ */
+gulp.task("compilejs", function () {
+  return browserify([join(__dirname, "assets", "js", "src", "app.js")])
+    .transform(Babelify, {})
+    .bundle()
+    .pipe(source("app.js"))
+    .pipe(buffer())
+    .pipe(minify())
+    .pipe(gulp.dest(join(__dirname, "assets", "js", "dist")));
+});
+
+// watch and run compilejs task
+gulp.task("watchjs", function () {
+  gulp.watch(
+    [join(__dirname, "assets", "js", "src", "app.js")],
+    series("compilejs")
+  );
+});
