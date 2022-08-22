@@ -1,5 +1,5 @@
 {
-  "name": "plugin",
+  "name": "plugin-name",
   "version": "1.0.0",
   "description": "[![SWUbanner](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner2-direct.svg)](https://vshymanskyy.github.io/StandWithUkraine)",
   "main": "index.js",
@@ -14,9 +14,11 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "fs-extra": "^10.1.0",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^8.0.0",
     "gulp-sass": "^5.1.0",
-    "sass": "^1.54.5"
+    "sass": "^1.54.5",
+    "zip-a-folder": "^1.1.5"
   }
 }
