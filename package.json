@@ -1,10 +1,15 @@
 {
-  "name": "portfolio",
+  "name": "plugin",
   "version": "1.0.0",
   "description": "[![SWUbanner](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner2-direct.svg)](https://vshymanskyy.github.io/StandWithUkraine)",
   "main": "index.js",
+  "variables": {
+    "text_domain": "plugin-name"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "generate-po": "php wp-cli.phar i18n make-pot ./ ./lang/en_US.po --domain=%npm_package_variables_text_domain%",
+    "generate-mo": "bash ./generate-mo-files.sh"
   },
   "author": "",
   "license": "ISC",

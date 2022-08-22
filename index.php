@@ -11,18 +11,21 @@ if(!defined('ABSPATH')) {
   exit;
 }
 
+define("PLUGIN_TEXT_DOMAIN", "plugin-name");
+define("PLUGIN_DIR", __DIR__);
+
 use Plugin\Classes\FlashMessage;
 
 include __DIR__ . "/vendor/autoload.php";
 
-include __DIR__ . "/abstracts/hooks.abstract.php";
+$directories = [__DIR__ . "/classes",__DIR__ . "/abstracts", __DIR__ . "/hooks"];
 
-include __DIR__ . "/hooks/example.hook.php";
+foreach ($directories as $dir)
+{
+  foreach (glob("{$dir}/*.php") as $filename) include $filename;
+}
 
-include __DIR__ . "/classes/flash-message.class.php";
-
-define("PLUGIN_DIR", plugin_dir_path(__FILE__));
-
+// Start session
 FlashMessage::getInstance();
 
 new Plugin\Hooks\Example();
