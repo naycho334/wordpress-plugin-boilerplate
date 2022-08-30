@@ -22,7 +22,7 @@ const gulp = require('gulp');
 const os = require('os');
 
 const compileSCSS = (event) => {
-  gulp.src('./scss/*.scss')
+  gulp.src('./assets/scss/*.scss')
     .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest('./assets/css'));
 
@@ -59,7 +59,7 @@ const removeCssFiles = (event) => {
 gulp.task('watchscss', function(){
   removeCssFiles();
   compileSCSS();
-  gulp.watch(['./scss/*.scss'], series(
+  gulp.watch(['./assets/scss/*.scss'], series(
     removeCssFiles,
     compileSCSS,
     autoPrefixCss
