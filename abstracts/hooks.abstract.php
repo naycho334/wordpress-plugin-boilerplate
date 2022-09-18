@@ -1,7 +1,5 @@
 <?php
 
-namespace Plugin\Abstracts;
-
 abstract class Hooks
 {
   abstract protected function public_hooks();
@@ -20,20 +18,24 @@ abstract class Hooks
 
     // load translations
     load_textdomain(PLUGIN_TEXT_DOMAIN,  PLUGIN_DIR . '/lang/' . get_locale() . '.mo');
+
+    // load dependecies
+    add_action('plugins_loaded', [$this, 'load_dependencies'], 99);
   }
 
   /**
    * Switch language
    */
-  public function switch_language(string $locale){
+  public function switch_language(string $locale)
+  {
     global $l10n;
-      
-    if(isset($l10n[PLUGIN_TEXT_DOMAIN])) {
+
+    if (isset($l10n[PLUGIN_TEXT_DOMAIN])) {
       $backup = $l10n[PLUGIN_TEXT_DOMAIN];
     }
 
     load_textdomain(PLUGIN_TEXT_DOMAIN, PLUGIN_DIR . 'lang/' . $locale . '.mo');
-    
+
     return function () use ($backup) {
       global $l10n;
 
@@ -41,5 +43,13 @@ abstract class Hooks
         $l10n[PLUGIN_TEXT_DOMAIN] = $backup;
       }
     };
+  }
+
+  /**
+   * Load dependecies
+   */
+  public function load_dependencies()
+  {
+    foreach (glob(PLUGIN_DIR . "/dependencies/*.php") as $filename) include $filename;
   }
 }

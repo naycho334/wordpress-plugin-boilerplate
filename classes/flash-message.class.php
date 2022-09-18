@@ -1,7 +1,5 @@
 <?php
 
-namespace Plugin\Classes;
-
 if(!defined('ABSPATH')) {
   exit;
 }

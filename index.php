@@ -7,26 +7,23 @@
  * Author: Samir El Khaouti
  */
 
-if(!defined('ABSPATH')) {
+if (!defined('ABSPATH')) {
   exit;
 }
 
 define("PLUGIN_TEXT_DOMAIN", "plugin-name");
 define("PLUGIN_DIR", __DIR__);
-define("PLUGIN_ASSETS_URL", PLUGIN_DIR . '/assets/');
-
-use Plugin\Classes\FlashMessage;
+define("PLUGIN_ASSETS_URL", plugins_url($plugin_name) . '/assets');
 
 include __DIR__ . "/vendor/autoload.php";
 
-$directories = [__DIR__ . "/classes",__DIR__ . "/abstracts", __DIR__ . "/hooks"];
+$directories = [__DIR__ . "/classes", __DIR__ . "/abstracts", __DIR__ . "/hooks"];
 
-foreach ($directories as $dir)
-{
+foreach ($directories as $dir) {
   foreach (glob("{$dir}/*.php") as $filename) include $filename;
 }
 
 // Start session
 FlashMessage::getInstance();
 
-new Plugin\Hooks\Example();
+new Example();

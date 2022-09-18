@@ -1,12 +1,8 @@
 <?php
 
-namespace Plugin\Hooks;
-
 if(!defined('ABSPATH')) {
   exit;
 }
-
-use Plugin\Abstracts\Hooks;
 
 class Example extends Hooks
 {
