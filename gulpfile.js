@@ -72,6 +72,7 @@ gulp.task("pack", async function () {
       "classes",
       "hooks",
       "templates",
+      "dependencies",
       "composer.json",
       "generate-mo-files.sh",
       "gulpfile.js",

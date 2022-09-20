@@ -17,7 +17,7 @@ abstract class Hooks
     }
 
     // load translations
-    load_textdomain(PLUGIN_TEXT_DOMAIN,  PLUGIN_DIR . '/lang/' . get_locale() . '.mo');
+    load_textdomain("plugin-domain",  PLUGIN_DIR . '/lang/' . get_locale() . '.mo');
 
     // load dependecies
     add_action('plugins_loaded', [$this, 'load_dependencies'], 99);
@@ -30,17 +30,17 @@ abstract class Hooks
   {
     global $l10n;
 
-    if (isset($l10n[PLUGIN_TEXT_DOMAIN])) {
-      $backup = $l10n[PLUGIN_TEXT_DOMAIN];
+    if (isset($l10n["plugin-domain"])) {
+      $backup = $l10n["plugin-domain"];
     }
 
-    load_textdomain(PLUGIN_TEXT_DOMAIN, PLUGIN_DIR . 'lang/' . $locale . '.mo');
+    load_textdomain("plugin-domain", PLUGIN_DIR . 'lang/' . $locale . '.mo');
 
     return function () use ($backup) {
       global $l10n;
 
       if (isset($backup)) {
-        $l10n[PLUGIN_TEXT_DOMAIN] = $backup;
+        $l10n["plugin-domain"] = $backup;
       }
     };
   }

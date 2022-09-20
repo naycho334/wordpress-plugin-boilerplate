@@ -11,9 +11,8 @@ if (!defined('ABSPATH')) {
   exit;
 }
 
-define("PLUGIN_TEXT_DOMAIN", "plugin-name");
 define("PLUGIN_DIR", __DIR__);
-define("PLUGIN_ASSETS_URL", plugins_url($plugin_name) . '/assets');
+define("PLUGIN_ASSETS_URL", plugins_url('assets', __FILE__));
 
 include __DIR__ . "/vendor/autoload.php";
 

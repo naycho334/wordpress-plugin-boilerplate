@@ -4,7 +4,7 @@
   "description": "[![SWUbanner](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner2-direct.svg)](https://vshymanskyy.github.io/StandWithUkraine)",
   "main": "index.js",
   "variables": {
-    "text_domain": "plugin-name"
+    "text_domain": "plugin-domain"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
