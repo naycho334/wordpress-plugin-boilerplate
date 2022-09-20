@@ -14,7 +14,9 @@ if (!defined('ABSPATH')) {
 define("PLUGIN_DIR", __DIR__);
 define("PLUGIN_ASSETS_URL", plugins_url('assets', __FILE__));
 
-include __DIR__ . "/vendor/autoload.php";
+if (file_exists(__DIR__ . "/vendor/autoload.php")) {
+  include __DIR__ . "/vendor/autoload.php";
+}
 
 $directories = [__DIR__ . "/classes", __DIR__ . "/abstracts", __DIR__ . "/hooks"];
 
