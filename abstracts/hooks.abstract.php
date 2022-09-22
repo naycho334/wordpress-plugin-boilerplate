@@ -59,6 +59,7 @@ abstract class Hooks
   public function load_template(string $template, array $data = [])
   {
     $template = PLUGIN_DIR . "/templates/{$template}.php";
+    $template = apply_filters('plugin_template', $template);
 
     if (file_exists($template)) {
       extract($data);
