@@ -52,4 +52,17 @@ abstract class Hooks
   {
     foreach (glob(PLUGIN_DIR . "/dependencies/*.php") as $filename) include $filename;
   }
+
+  /**
+   * Load template
+   */
+  public function load_template(string $template, array $data = [])
+  {
+    $template = PLUGIN_DIR . "/templates/{$template}.php";
+
+    if (file_exists($template)) {
+      extract($data);
+      include $template;
+    }
+  }
 }
