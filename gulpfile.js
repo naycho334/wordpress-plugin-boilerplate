@@ -70,6 +70,7 @@ gulp.task("pack", async function () {
       "lang",
       "abstracts",
       "classes",
+      "helpers",
       "hooks",
       "templates",
       "dependencies",

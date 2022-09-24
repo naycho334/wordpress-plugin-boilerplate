@@ -18,7 +18,7 @@ if (file_exists(__DIR__ . "/vendor/autoload.php")) {
   include __DIR__ . "/vendor/autoload.php";
 }
 
-$directories = [__DIR__ . "/classes", __DIR__ . "/abstracts", __DIR__ . "/hooks"];
+$directories = [__DIR__ . "/classes", __DIR__ . "/abstracts", __DIR__ . "/hooks", __DIR__ . "/helpers"];
 
 foreach ($directories as $dir) {
   foreach (glob("{$dir}/*.php") as $filename) include $filename;
