@@ -4,48 +4,46 @@ if (!defined('ABSPATH')) {
   exit;
 }
 
-if (class_exists(FlashMessage::class)) {
-  return;
-}
-
-class FlashMessage
-{
-  public static $instance = null;
-
-  public function __construct()
+if (!class_exists('FlashMessage')) {
+  class FlashMessage
   {
-    if (!session_id()) {
-      session_start();
-    }
-  }
+    public static $instance = null;
 
-  public static function getInstance()
-  {
-    if (self::$instance === null) {
-      self::$instance = new FlashMessage();
+    public function __construct()
+    {
+      if (!session_id()) {
+        session_start();
+      }
     }
 
-    return self::$instance;
-  }
+    public static function getInstance()
+    {
+      if (self::$instance === null) {
+        self::$instance = new FlashMessage();
+      }
 
-  public function set($data, $type = 'success')
-  {
-    $_SESSION['flash_message'] = [
-      'data' => $data,
-      'type' => $type,
-    ];
-  }
-
-  public function get()
-  {
-    if (session_id() && isset($_SESSION['flash_message'])) {
-      $message = $_SESSION['flash_message'];
-
-      session_destroy();
-
-      return $message;
+      return self::$instance;
     }
 
-    return null;
+    public function set($data, $type = 'success')
+    {
+      $_SESSION['flash_message'] = [
+        'data' => $data,
+        'type' => $type,
+      ];
+    }
+
+    public function get()
+    {
+      if (session_id() && isset($_SESSION['flash_message'])) {
+        $message = $_SESSION['flash_message'];
+
+        session_destroy();
+
+        return $message;
+      }
+
+      return null;
+    }
   }
 }
