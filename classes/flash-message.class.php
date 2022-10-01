@@ -1,7 +1,11 @@
 <?php
 
-if(!defined('ABSPATH')) {
+if (!defined('ABSPATH')) {
   exit;
+}
+
+if (class_exists(FlashMessage::class)) {
+  return;
 }
 
 class FlashMessage

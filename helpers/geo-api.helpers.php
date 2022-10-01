@@ -1,5 +1,9 @@
 <?php
 
+if(!defined('ABSPATH')) {
+  exit;
+}
+
 if (!function_exists('nc_get_country_by_ip_address')) {
 
   /**

@@ -1,7 +1,11 @@
 <?php
 
-if(!defined('ABSPATH')) {
+if (!defined('ABSPATH')) {
   exit;
+}
+
+if (class_exists(Example::class)) {
+  return;
 }
 
 class Example extends Hooks
