@@ -31,6 +31,9 @@ if (!class_exists('Hooks')) {
 
       // load dependecies
       add_action('plugins_loaded', [$this, 'load_dependencies'], 99);
+
+      // enqueue scripts and styles
+      add_action('wp_enqueue_scripts', [$this, 'enqueue_scripts']);
     }
 
     /**
@@ -97,6 +100,14 @@ if (!class_exists('Hooks')) {
       $url = $this->assets_url . '/' . $path;
 
       return apply_filters('plugin_get_asset_url', $url);
+    }
+
+    /**
+     * Enqueue scripts and styles
+     */
+    public function enqueue_scripts()
+    {
+      wp_register_script('vue', $this->get_asset_url('js/vue.js'), ['jquery'], '1.0.0', true);
     }
   }
 }

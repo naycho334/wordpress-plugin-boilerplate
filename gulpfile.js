@@ -1,3 +1,5 @@
+/** @format */
+
 "use strict";
 
 const {
@@ -6,12 +8,14 @@ const {
   mkdirSync,
   rmdirSync,
   rmSync,
+  existsSync,
 } = require("fs");
 const sass = require("gulp-sass")(require("sass"));
 const prefixer = require("gulp-autoprefixer");
 const source = require("vinyl-source-stream");
 const browserify = require("browserify");
 const { copySync } = require("fs-extra");
+const changed = require("gulp-changed");
 const { zip } = require("zip-a-folder");
 const buffer = require("vinyl-buffer");
 const minify = require("gulp-minify");
@@ -83,7 +87,11 @@ gulp.task("pack", async function () {
       ".gitignore",
     ];
 
-    dirs.forEach((dir) => copySync(join(__dirname, dir), join(dirName, dir)));
+    dirs.forEach((dir) => {
+      if (existsSync(join(__dirname, dir))) {
+        copySync(join(__dirname, dir), join(dirName, dir));
+      }
+    });
 
     await zip(dirName, join(__dirname, json.name + ".zip"));
 
@@ -98,24 +106,31 @@ gulp.task("pack", async function () {
  * Complile and minify js files
  */
 gulp.task("compilejs", function () {
-  return browserify([join(__dirname, "assets", "js", "src", "main.js")])
-    .transform(Babelify, {
-      presets: ["@babel/preset-react"],
-      plugins: [
-        "@babel/plugin-proposal-class-properties",
-        "@babel/plugin-transform-classes",
-        "@babel/plugin-transform-modules-commonjs",
-      ],
-    })
-    .bundle()
-    .pipe(source("app.js"))
-    .pipe(buffer())
-    .pipe(
-      minify({
-        ext: { min: ".min.js" },
-      })
+  const jsFiles = readdirSync(join(__dirname, "assets", "js", "src")).filter(
+    (file) => file.endsWith(".js")
+  );
+
+  const streams = Promise.all(
+    jsFiles.map((filename) =>
+      browserify([join(__dirname, "assets", "js", "src", filename)])
+        .transform(Babelify, {
+          presets: ["@babel/preset-react"],
+          plugins: [
+            "@babel/plugin-proposal-class-properties",
+            "@babel/plugin-transform-classes",
+            "@babel/plugin-transform-modules-commonjs",
+          ],
+        })
+        .bundle()
+        .pipe(source(filename))
+        .pipe(changed(join(__dirname, "assets", "js", "dist")))
+        .pipe(buffer())
+        .pipe(minify({ ext: { min: ".min.js" } }))
+        .pipe(gulp.dest(join(__dirname, "assets", "js", "dist")))
     )
-    .pipe(gulp.dest(join(__dirname, "assets", "js", "dist")));
+  );
+
+  return streams;
 });
 
 // watch and run compilejs task
