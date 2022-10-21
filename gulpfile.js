@@ -1,8 +1,7 @@
-"use strict";
-
 const {
   readFileSync,
   readdirSync,
+  existsSync,
   mkdirSync,
   rmdirSync,
   rmSync,
@@ -44,7 +43,7 @@ const removeCssFiles = (event) => {
   event !== undefined && event();
 };
 
-/**
+/*
  * Watch scss
  */
 gulp.task("watchscss", function () {
@@ -53,7 +52,7 @@ gulp.task("watchscss", function () {
   gulp.watch(["./assets/scss/*.scss"], series(removeCssFiles, compileSCSS));
 });
 
-/**
+/*
  * Compress plugin
  */
 gulp.task("pack", async function () {
@@ -83,7 +82,11 @@ gulp.task("pack", async function () {
       ".gitignore",
     ];
 
-    dirs.forEach((dir) => copySync(join(__dirname, dir), join(dirName, dir)));
+    dirs.forEach((dir) => {
+      if (existsSync(join(__dirname, dir))) {
+        copySync(join(__dirname, dir), join(dirName, dir));
+      }
+    });
 
     await zip(dirName, join(__dirname, json.name + ".zip"));
 
@@ -94,28 +97,34 @@ gulp.task("pack", async function () {
   }
 });
 
-/**
+/*
  * Complile and minify js files
  */
 gulp.task("compilejs", function () {
-  return browserify([join(__dirname, "assets", "js", "src", "main.js")])
-    .transform(Babelify, {
-      presets: ["@babel/preset-react"],
-      plugins: [
-        "@babel/plugin-proposal-class-properties",
-        "@babel/plugin-transform-classes",
-        "@babel/plugin-transform-modules-commonjs",
-      ],
-    })
-    .bundle()
-    .pipe(source("app.js"))
-    .pipe(buffer())
-    .pipe(
-      minify({
-        ext: { min: ".min.js" },
-      })
+  const jsFiles = readdirSync(join(__dirname, "assets", "js", "src")).filter(
+    (file) => file.endsWith(".js")
+  );
+
+  const streams = Promise.all(
+    jsFiles.map((filename) =>
+      browserify([join(__dirname, "assets", "js", "src", filename)])
+        .transform(Babelify, {
+          presets: ["@babel/preset-react"],
+          plugins: [
+            "@babel/plugin-proposal-class-properties",
+            "@babel/plugin-transform-classes",
+            "@babel/plugin-transform-modules-commonjs",
+          ],
+        })
+        .bundle()
+        .pipe(source(filename))
+        .pipe(buffer())
+        .pipe(minify({ ext: { min: ".min.js" } }))
+        .pipe(gulp.dest(join(__dirname, "assets", "js", "dist")))
     )
-    .pipe(gulp.dest(join(__dirname, "assets", "js", "dist")));
+  );
+
+  return streams;
 });
 
 // watch and run compilejs task

@@ -1,10 +1,10 @@
 {
   "name": "plugin-name",
   "version": "1.0.0",
-  "description": "[![SWUbanner](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner2-direct.svg)](https://vshymanskyy.github.io/StandWithUkraine)",
+  "description": "A boilerplate wordpress plugin",
   "main": "index.js",
   "variables": {
-    "text_domain": "plugin-domain"
+    "text_domain": "nc-text-domain"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -12,8 +12,9 @@
     "generate-mo": "bash ./generate-mo-files.sh",
     "pack": "gulp pack"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Samir El Khaouti",
+  "author_email": "elkhaouti@gmail.com",
+  "license": "MIT",
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.18.6",
     "@babel/plugin-transform-classes": "^7.18.9",

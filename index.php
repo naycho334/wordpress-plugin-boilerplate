@@ -1,10 +1,12 @@
 <?php
 
 /**
- * Plugin Name: Plugin name
+ * Plugin Name: NC Plugin name
  * Description: Plugin boilerplate.
  * Version: 1.0.0
  * Author: Samir El Khaouti
+ * Author URI:
+ * License: GPL2
  */
 
 if (!defined('ABSPATH')) {
@@ -15,7 +17,7 @@ if (file_exists(__DIR__ . "/vendor/autoload.php")) {
   include __DIR__ . "/vendor/autoload.php";
 }
 
-$directories = [__DIR__ . "/classes", __DIR__ . "/abstracts", __DIR__ . "/hooks", __DIR__ . "/helpers"];
+$directories = [__DIR__ . "/helpers", __DIR__ . "/abstracts", __DIR__ . "/classes",  __DIR__ . "/hooks"];
 
 foreach ($directories as $dir) {
   foreach (glob("{$dir}/*.php") as $filename) include $filename;
@@ -24,4 +26,9 @@ foreach ($directories as $dir) {
 // Start session
 FlashMessage::getInstance();
 
-new Example();
+Hooks::execute(
+  plugin_dir_path(__FILE__),
+  [
+    Example::class,
+  ]
+);
