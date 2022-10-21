@@ -173,13 +173,5 @@ if (!class_exists('Hooks')) {
     {
       return apply_filters('nc_plugin_template_basename', $this->__template_dir);
     }
-
-    /**
-     * Enqueue scripts and styles
-     */
-    public function enqueue_scripts()
-    {
-      wp_register_script('vue', $this->get_asset_url('js/vue.js'), ['jquery'], '1.0.0', true);
-    }
   }
 }
