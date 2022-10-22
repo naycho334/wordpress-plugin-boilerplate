@@ -90,7 +90,7 @@ if (!class_exists('NC_Hooks')) {
      * 
      * @return void
      */
-    public static function execute(string $plugin_dir, array  $hooks = [])
+    final public static function execute(string $plugin_dir, array  $hooks = [])
     {
       foreach ($hooks as $hook) {
         if (class_exists($hook) && in_array(__CLASS__, class_parents($hook))) {
@@ -109,7 +109,7 @@ if (!class_exists('NC_Hooks')) {
      * 
      * @return void
      */
-    public function switch_language(string $locale)
+    final public function switch_language(string $locale)
     {
       global $l10n;
 
@@ -136,7 +136,7 @@ if (!class_exists('NC_Hooks')) {
      * 
      * @return void
      */
-    public function load_template(string $template, array $args = [])
+    final public function load_template(string $template, array $args = [])
     {
       $template = preg_replace(['/^\//', '/.php$/'], ['', ''],  $template);
       $template = $this->get_template_dir_path("{$template}.php");
@@ -157,7 +157,7 @@ if (!class_exists('NC_Hooks')) {
      * 
      * @return void
      */
-    public function get_asset_url(string $path)
+    final public function get_asset_url(string $path)
     {
       $path = preg_replace(['/^\//'], [''], $path);
       $url = $this->__assets_url . '/' . $path;
@@ -172,7 +172,7 @@ if (!class_exists('NC_Hooks')) {
      * 
      * @return string
      */
-    public function get_template_dir_path($path = '')
+    final public function get_template_dir_path($path = '')
     {
       $path = preg_replace(['/^\//'], [''], $path);
       $path = $this->__template_dir . '/' . $path;
