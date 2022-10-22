@@ -4,8 +4,8 @@ if (!defined('ABSPATH')) {
   exit;
 }
 
-if (!class_exists('Hooks')) {
-  abstract class Hooks
+if (!class_exists('NC_Hooks')) {
+  abstract class NC_Hooks
   {
     private $__template_dir = null;
     private $__plugin_dir = null;
@@ -46,9 +46,9 @@ if (!class_exists('Hooks')) {
     {
       // enqueue vuejs
       if (defined('WP_DEBUG') && WP_DEBUG) {
-        wp_register_script('vue', $this->get_asset_url('js/dist/vue.3.2.41.dev.js'), ['jquery'], '2.6.10', true);
+        wp_register_script('vue', $this->get_asset_url('js/dist/vue.3.2.41.dev.js'), ['jquery'], '3.2.41', true);
       } else {
-        wp_register_script('vue', $this->get_asset_url('js/dist/vue.3.2.41.prod.js'), ['jquery'], '2.6.10', true);
+        wp_register_script('vue', $this->get_asset_url('js/dist/vue.3.2.41.prod.js'), ['jquery'], '3.2.41', true);
       }
     }
 
@@ -57,7 +57,7 @@ if (!class_exists('Hooks')) {
      * 
      * @param string $dir Plugin directory
      * 
-     * @return Hooks $this
+     * @return NC_Hooks $this
      */
     final public function __set_plugin_dir(string $dir)
     {
@@ -86,17 +86,18 @@ if (!class_exists('Hooks')) {
      * Execute hooks
      * 
      * @param string   $plugin_dir Plugin directory
-     * @param string[] $hooks Hooks classes to execute
+     * @param string[] $hooks NC_Hooks classes to execute
      * 
      * @return void
      */
     public static function execute(string $plugin_dir, array  $hooks = [])
     {
       foreach ($hooks as $hook) {
-        if (class_exists($hook)) {
+        if (class_exists($hook) && in_array(__CLASS__, class_parents($hook))) {
           $instance = new $hook();
-          $instance->__set_plugin_dir($plugin_dir);
-          $instance->__init();
+          $instance
+            ->__set_plugin_dir($plugin_dir)
+            ->__init();
         }
       }
     }
@@ -137,11 +138,11 @@ if (!class_exists('Hooks')) {
      */
     public function load_template(string $template, array $args = [])
     {
-      // remove .php extension
-      $template = str_replace('.php', '', $template);
-      $template = preg_replace('/^\//', '',  $template);
-      $template = $this->__plugin_dir . "templates/{$template}.php";
+      $template = preg_replace(['/^\//', '/.php$/'], ['', ''],  $template);
+      $template = $this->get_template_dir_path("{$template}.php");
       $template = apply_filters('nc_plugin_get_template', $template);
+
+      return $template;
 
       if (file_exists($template)) {
         extract($args);
@@ -167,11 +168,16 @@ if (!class_exists('Hooks')) {
     /**
      * Get templates dir path
      * 
+     * @param string $path Optional file path
+     * 
      * @return string
      */
-    public function get_template_dir_path()
+    public function get_template_dir_path($path = '')
     {
-      return apply_filters('nc_plugin_template_basename', $this->__template_dir);
+      $path = preg_replace(['/^\//'], [''], $path);
+      $path = $this->__template_dir . '/' . $path;
+
+      return apply_filters('nc_plugin_template_basename', $path);
     }
   }
 }

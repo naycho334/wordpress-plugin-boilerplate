@@ -5,7 +5,7 @@
  * Description: Plugin boilerplate.
  * Version: 1.0.0
  * Author: Samir El Khaouti
- * Author URI:
+ * Author URI: http://github.com/naycho334/
  * License: GPL2
  */
 
@@ -26,9 +26,9 @@ foreach ($directories as $dir) {
 // Start session
 FlashMessage::getInstance();
 
-Hooks::execute(
+NC_Hooks::execute(
   plugin_dir_path(__FILE__),
   [
-    Example::class,
+    NC_Hooks_Example::class,
   ]
 );
