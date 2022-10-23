@@ -79,7 +79,7 @@ if (!class_exists('NC_Hooks')) {
      */
     final public function __load_dependencies()
     {
-      foreach (glob($this->__plugin_dir . "dependencies/*.php") as $filename) include $filename;
+      foreach (glob($this->__plugin_dir . "dependencies/*.dependency.php") as $filename) include $filename;
     }
 
     /**
@@ -141,8 +141,6 @@ if (!class_exists('NC_Hooks')) {
       $template = preg_replace(['/^\//', '/.php$/'], ['', ''],  $template);
       $template = $this->get_template_dir_path("{$template}.php");
       $template = apply_filters('nc_plugin_get_template', $template);
-
-      return $template;
 
       if (file_exists($template)) {
         extract($args);

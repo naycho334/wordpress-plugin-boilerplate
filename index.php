@@ -17,10 +17,15 @@ if (file_exists(__DIR__ . "/vendor/autoload.php")) {
   include __DIR__ . "/vendor/autoload.php";
 }
 
-$directories = [__DIR__ . "/helpers", __DIR__ . "/abstracts", __DIR__ . "/classes",  __DIR__ . "/hooks"];
+$directories = [
+  "helpers" => "*.helpers.php",
+  "abstracts" => "*.abstract.php",
+  "classes" => "*.class.php",
+  "hooks" => "*.hooks.php"
+];
 
-foreach ($directories as $dir) {
-  foreach (glob("{$dir}/*.php") as $filename) include $filename;
+foreach ($directories as $dir => $pattern) {
+  foreach (glob(__DIR__ . "/{$dir}/{$pattern}") as $filename) include $filename;
 }
 
 // Start session

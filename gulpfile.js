@@ -9,7 +9,6 @@ const {
   mkdirSync,
   rmdirSync,
   rmSync,
-  existsSync,
 } = require("fs");
 const sass = require("gulp-sass")(require("sass"));
 const prefixer = require("gulp-autoprefixer");
