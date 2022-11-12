@@ -10,6 +10,7 @@ if (!class_exists('NC_Hooks')) {
     private $__template_dir = null;
     private $__plugin_dir = null;
     private $__assets_url = null;
+    private $__plugin_id = null;
 
     abstract protected function public_hooks();
     abstract protected function common_hooks();
@@ -20,15 +21,24 @@ if (!class_exists('NC_Hooks')) {
      */
     final public function __init()
     {
-      // load translations
-      load_textdomain("plugin-text-domain",  $this->__plugin_dir . 'lang/' . get_locale() . '.mo');
+      // Initialize the plugin only once
+      $initialized = wp_cache_get("__nc_initialized_hooks_list__", "nc") ?: [];
 
-      // load dependecies
-      add_action('plugins_loaded', [$this, '__load_dependencies'], 99);
+      if (!in_array($this->__plugin_id, $initialized)) {
+        // load translations
+        load_textdomain("plugin-text-domain",  $this->__plugin_dir . 'lang/' . get_locale() . '.mo');
 
-      // enqueue scripts and styles
-      add_action('admin_enqueue_scripts', [$this, '__enqueue_scripts'], 0);
-      add_action('enqueue_scripts', [$this, '__enqueue_scripts'], 0);
+        // load dependecies
+        add_action('plugins_loaded', [$this, '__load_dependencies'], 99);
+
+        // enqueue scripts and styles
+        add_action('admin_enqueue_scripts', [$this, '__enqueue_scripts'], 0);
+        add_action('enqueue_scripts', [$this, '__enqueue_scripts'], 0);
+
+        $initialized[] = $this->__plugin_id;
+      }
+
+      wp_cache_set("__nc_initialized_hooks_list__", $initialized, "nc");
 
       $this->common_hooks();
 
@@ -62,10 +72,11 @@ if (!class_exists('NC_Hooks')) {
     final public function __set_plugin_dir(string $dir)
     {
       if (!is_dir($dir)) {
-        throw new Exception(__("Plugin directory not found", "plugin-text-domain"));
+        throw new Exception("Plugin directory not found");
       }
 
       $this->__plugin_dir = $dir;
+      $this->__plugin_id = basename($this->__plugin_dir);
       $this->__assets_url = plugins_url('assets', $this->__plugin_dir . '/_');
       $this->__template_dir = $this->__plugin_dir . 'templates';
 

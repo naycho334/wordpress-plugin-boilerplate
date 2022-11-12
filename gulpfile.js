@@ -21,7 +21,6 @@ const minify = require("gulp-minify");
 const Babelify = require("babelify");
 const { series } = require("gulp");
 const { join } = require("path");
-const tsify = require("tsify");
 const gulp = require("gulp");
 const os = require("os");
 
@@ -134,34 +133,4 @@ gulp.task("compilejs", function () {
 // watch and run compilejs task
 gulp.task("watchjs", function () {
   gulp.watch([join(__dirname, "assets", "js", "src")], series("compilejs"));
-});
-
-/**
- * Complile and minify js files
- */
-gulp.task("compilets", function () {
-  return browserify({
-    basedir: ".",
-    debug: true,
-    entries: ["assets/js/src/main.ts"],
-    cache: {},
-    packageCache: {},
-  })
-    .plugin(tsify)
-    .bundle()
-    .pipe(source("app.js"))
-    .pipe(buffer())
-    .pipe(
-      minify({
-        ext: {
-          min: ".min.js",
-        },
-      })
-    )
-    .pipe(gulp.dest(join(__dirname, "assets", "js", "dist")));
-});
-
-// watch and run compilets task
-gulp.task("watchts", function () {
-  gulp.watch([join(__dirname, "assets", "js", "src")], series("compilets"));
 });

@@ -7,7 +7,6 @@
     "text_domain": "nc-text-domain"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "generate-po": "php wp-cli.phar i18n make-pot ./ ./lang/en_US.po --domain=%npm_package_variables_text_domain%",
     "generate-mo": "bash ./generate-mo-files.sh",
     "pack": "gulp pack"
@@ -37,6 +36,7 @@
     "zip-a-folder": "^1.1.5"
   },
   "dependencies": {
+    "bootstrap": "^5.2.2",
     "lodash": "^4.17.21"
   }
 }

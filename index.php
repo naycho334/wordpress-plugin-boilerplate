@@ -28,9 +28,6 @@ foreach ($directories as $dir => $pattern) {
   foreach (glob(__DIR__ . "/{$dir}/{$pattern}") as $filename) include $filename;
 }
 
-// Start session
-FlashMessage::getInstance();
-
 NC_Hooks::execute(
   plugin_dir_path(__FILE__),
   [

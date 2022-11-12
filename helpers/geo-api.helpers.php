@@ -1,6 +1,6 @@
 <?php
 
-if(!defined('ABSPATH')) {
+if (!defined('ABSPATH')) {
   exit;
 }
 
@@ -40,7 +40,7 @@ if (!function_exists('nc_get_country_by_ip_address')) {
       }
 
       // store ip in memory
-      wp_cache_set($key, $country ? "yes" : "no");
+      wp_cache_set($key, $country);
     }
 
     return $country;
