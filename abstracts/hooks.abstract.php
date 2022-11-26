@@ -33,7 +33,7 @@ if (!class_exists('NC_Hooks')) {
 
         // enqueue scripts and styles
         add_action('admin_enqueue_scripts', [$this, '__enqueue_scripts'], 0);
-        add_action('enqueue_scripts', [$this, '__enqueue_scripts'], 0);
+        add_action('wp_enqueue_scripts', [$this, '__enqueue_scripts'], 0);
 
         $initialized[] = $this->__plugin_id;
       }

@@ -13,6 +13,7 @@ const {
 const sass = require("gulp-sass")(require("sass"));
 const prefixer = require("gulp-autoprefixer");
 const source = require("vinyl-source-stream");
+const cleanCSS = require("gulp-clean-css");
 const browserify = require("browserify");
 const { copySync } = require("fs-extra");
 const { zip } = require("zip-a-folder");
@@ -29,6 +30,7 @@ const compileSCSS = (event) => {
     .src("./assets/scss/*.scss")
     .pipe(sass().on("error", sass.logError))
     .pipe(prefixer("last 2 versions"))
+    .pipe(cleanCSS({ compatibility: "ie8" }))
     .pipe(gulp.dest("./assets/css"));
 
   event !== undefined && event();
@@ -80,6 +82,7 @@ gulp.task("pack", async function () {
       "generate-mo-files.sh",
       "gulpfile.js",
       "index.php",
+      "vendor",
       "package.json",
       "wp-cli.phar",
       ".gitignore",
