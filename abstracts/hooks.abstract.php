@@ -183,8 +183,8 @@ if (!class_exists('NC_Hooks')) {
      */
     final public function get_template_dir_path($path = '')
     {
-      $path = preg_replace(['/^\//'], [''], $path);
-      $path = $this->__template_dir . '/' . $path;
+      $path = preg_replace(['/^\//', '/\.php$/'], ['', ''], $path);
+      $path = $this->__template_dir . '/' . $path . '.php';
 
       return apply_filters('nc_plugin_template_basename', $path);
     }
