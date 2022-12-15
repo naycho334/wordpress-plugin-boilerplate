@@ -4,40 +4,26 @@
   "description": "A boilerplate wordpress plugin",
   "main": "index.js",
   "variables": {
-    "text_domain": "nc-text-domain"
+    "text_domain": "plugin-text-domain"
   },
   "scripts": {
     "generate-po": "php wp-cli.phar i18n make-pot ./ ./lang/en_US.po --domain=%npm_package_variables_text_domain%",
     "generate-mo": "bash ./generate-mo-files.sh",
-    "pack": "gulp pack"
+    "watch": "npx mix watch",
+    "build": "npx mix --production"
   },
   "author": "Samir El Khaouti",
   "author_email": "elkhaouti@gmail.com",
   "license": "MIT",
   "devDependencies": {
-    "@babel/core": "^7.19.3",
-    "@babel/plugin-proposal-class-properties": "^7.18.6",
-    "@babel/plugin-transform-classes": "^7.18.9",
-    "@babel/plugin-transform-modules-commonjs": "^7.18.6",
-    "@babel/preset-react": "^7.18.6",
-    "babelify": "^10.0.0",
-    "browserify": "^17.0.0",
-    "fs-extra": "^10.1.0",
-    "gulp": "^4.0.2",
-    "gulp-autoprefixer": "^8.0.0",
-    "gulp-babel": "^8.0.0",
-    "gulp-changed": "^4.0.3",
-    "gulp-minify": "^3.1.0",
-    "gulp-sass": "^5.1.0",
-    "sass": "^1.54.5",
-    "tsify": "^5.0.4",
-    "vinyl-buffer": "^1.0.1",
-    "vinyl-source-stream": "^2.0.0",
+    "laravel-mix": "^6.0.49",
+    "resolve-url-loader": "^5.0.0",
+    "sass": "^1.56.2",
+    "sass-loader": "^12.1.0",
     "zip-a-folder": "^1.1.5"
   },
   "dependencies": {
     "bootstrap": "^5.2.2",
-    "gulp-clean-css": "^4.3.0",
     "lodash": "^4.17.21"
   }
 }
