@@ -31,10 +31,6 @@ if (!class_exists('NC_Hooks')) {
         // load dependecies
         add_action('plugins_loaded', [$this, '__load_dependencies'], 99);
 
-        // enqueue scripts and styles
-        add_action('admin_enqueue_scripts', [$this, '__enqueue_scripts'], 0);
-        add_action('wp_enqueue_scripts', [$this, '__enqueue_scripts'], 0);
-
         $initialized[] = $this->__plugin_id;
       }
 
@@ -46,19 +42,6 @@ if (!class_exists('NC_Hooks')) {
         $this->admin_hooks();
       } else {
         $this->public_hooks();
-      }
-    }
-
-    /**
-     * Enqueue scripts and styles
-     */
-    final public function __enqueue_scripts()
-    {
-      // enqueue vuejs
-      if (defined('WP_DEBUG') && WP_DEBUG) {
-        wp_register_script('vue', $this->get_asset_url('js/dist/vue.3.2.41.dev.js'), ['jquery'], '3.2.41', true);
-      } else {
-        wp_register_script('vue', $this->get_asset_url('js/dist/vue.3.2.41.prod.js'), ['jquery'], '3.2.41', true);
       }
     }
 
