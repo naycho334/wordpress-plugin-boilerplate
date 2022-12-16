@@ -4,3 +4,4 @@ vendor
 *.zip
 assets/js/dist/**
 !assets/js/dist/vue.*
+mix-manifest.json

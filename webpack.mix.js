@@ -12,6 +12,25 @@ mix
   // js files
   .js("assets/js/src/main.js", "assets/js/dist")
 
+  // create websocket server for hot reload
+  .browserSync({
+    proxy: "http://example.test",
+    files: [
+      "assets/js/dist/**/*.js",
+      "assets/css/**/*.css",
+      "templates/**/*.php",
+    ],
+    watch: true,
+    open: true,
+  })
+
+  // save files from cache
+  .webpackConfig({
+    cache: {
+      type: "filesystem",
+    },
+  })
+
   // zip the plugin after build is done
   .after(async (webpackStats) => {
     if (mix.inProduction()) {
