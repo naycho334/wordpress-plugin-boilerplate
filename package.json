@@ -3,12 +3,9 @@
   "version": "1.0.0",
   "description": "A boilerplate wordpress plugin",
   "main": "index.js",
-  "variables": {
-    "text_domain": "plugin-text-domain"
-  },
   "scripts": {
-    "generate-po": "php wp-cli.phar i18n make-pot ./ ./lang/en_US.po --domain=%npm_package_variables_text_domain%",
-    "generate-mo": "bash ./generate-mo-files.sh",
+    "generate-mo": "bash generate-mo-files.sh",
+    "generate-po": "bash generate-po-files.sh --domain plugin-text-domain --languages fr_FR,en_US,ar_AR",
     "watch": "npx mix watch",
     "build": "npx mix --production"
   },
