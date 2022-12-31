@@ -134,7 +134,7 @@ if (!class_exists('NC_Hooks')) {
     {
       $template = preg_replace(['/^\//', '/.php$/'], ['', ''],  $template);
       $template = $this->get_template_dir_path("{$template}.php");
-      $template = apply_filters('nc_plugin_get_template', $template);
+      $template = apply_filters('nc_plugin_get_template', $template, $args);
 
       if (file_exists($template)) {
         extract($args);
@@ -168,6 +168,7 @@ if (!class_exists('NC_Hooks')) {
     {
       $path = preg_replace(['/^\//', '/\.php$/'], ['', ''], $path);
       $path = $this->__template_dir . '/' . $path . '.php';
+      $path = realpath($path);
 
       return apply_filters('nc_plugin_template_basename', $path);
     }
